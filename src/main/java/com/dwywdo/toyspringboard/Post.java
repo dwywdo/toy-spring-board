@@ -13,6 +13,7 @@ public class Post {
 
     private String title;
     private String author;
+    private String content;
 
     public Integer getId() {
         return id;
@@ -36,5 +37,13 @@ public class Post {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
