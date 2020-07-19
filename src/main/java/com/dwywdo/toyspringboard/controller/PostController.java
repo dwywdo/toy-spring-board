@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-// todo. Implement PostService to distinguish from Controller
 @RestController
 @RequestMapping("/board")
 public class PostController {
