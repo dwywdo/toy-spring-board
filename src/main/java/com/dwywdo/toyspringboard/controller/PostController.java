@@ -1,6 +1,7 @@
-package com.dwywdo.toyspringboard;
+package com.dwywdo.toyspringboard.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dwywdo.toyspringboard.model.Post;
+import com.dwywdo.toyspringboard.service.PostService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -9,30 +10,29 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/board")
 public class PostController {
-    private final PostRepository postRepository;
 
-    public PostController(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
     }
-
 
     // todo. Make use of @RequestBody for getting data with HTTP Request Body
     @PostMapping("/upload")
-    public @ResponseBody String uploadPost(@RequestParam(value="user", defaultValue="Anonymous") String userName,
+    public @ResponseBody Post uploadPost(@RequestParam(value="user", defaultValue="Anonymous") String userName,
                            @RequestParam(value="title", defaultValue="defaultTitle") String title,
                            @RequestParam(value="content", defaultValue="defaultContent") String content){
         Post newPost = new Post();
         newPost.setAuthor(userName);
         newPost.setTitle(title);
         newPost.setContent(content);
-        postRepository.save(newPost);
 
-        return "Post has been uploaded";
+        return postService.uploadPost(newPost);
     }
 
     @GetMapping("/retrieve/all")
     public @ResponseBody Page<Post> getAllPosts(Pageable pageable){
-        return postRepository.findAll(pageable);
+        return postService.getAllPosts(pageable);
     }
 
 }
