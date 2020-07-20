@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/board")
 public class PostController {
@@ -18,15 +20,18 @@ public class PostController {
 
     // todo. Make use of @RequestBody for getting data with HTTP Request Body
     @PostMapping("/upload")
-    public @ResponseBody Post uploadPost(@RequestParam(value="user", defaultValue="Anonymous") String userName,
-                           @RequestParam(value="title", defaultValue="defaultTitle") String title,
-                           @RequestParam(value="content", defaultValue="defaultContent") String content){
-        Post newPost = new Post();
-        newPost.setAuthor(userName);
-        newPost.setTitle(title);
-        newPost.setContent(content);
-
+    public @ResponseBody Post uploadPost(@RequestBody Post newPost){
         return postService.uploadPost(newPost);
+    }
+
+    @GetMapping("/{id}")
+    public @ResponseBody Optional<Post> getPost(@PathVariable long id){
+        return postService.getPost(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public @ResponseBody String deletePost(@PathVariable long id){
+        return postService.deletePost(id);
     }
 
     @GetMapping("/retrieve/all")
